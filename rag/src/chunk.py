@@ -56,11 +56,12 @@ def chunk_text(docs: list):
 def convert_chunks_to_dict(chunks: list) -> list:
     """Convert a list of langchain documents to a list of dictionaries."""
     return [
-        {
+        {               
+            "chunk_id": f"chunk_{i:06d}",
             "text": chunk.page_content,
             "metadata": chunk.metadata,
         }
-        for chunk in chunks
+        for i, chunk in enumerate(chunks)
     ]
 
 
