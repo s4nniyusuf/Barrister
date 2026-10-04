@@ -69,10 +69,14 @@ def save_chunks(chunks_dict: list):
     """Save the chunks to the output directory."""
     output_dir = Path(CHUNKS_DIR)
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / "chunks.json"
+
+    output_path = output_dir / "chunks.jsonl"
+
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(chunks_dict, f, ensure_ascii=False, indent=4)
-    print(f"Chunks saved to {output_path}")
+        for chunk in chunks_dict:
+            f.write(json.dumps(chunk, ensure_ascii=False) + "\n")
+            
+    print(f"Saved {len(chunks_dict)} chunks to {output_path}")
 
 
 def main():
@@ -85,7 +89,6 @@ def main():
         data.extend(content)
     docs = convert_to_langchain_documents(data)
     chunks = chunk_text(docs)
-    print(f"Total chunks created: {len(chunks)}")
     chunks_dict = convert_chunks_to_dict(chunks)
     save_chunks(chunks_dict)
 
