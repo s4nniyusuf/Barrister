@@ -1,7 +1,7 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
-from config import EMBEDDING_MODEL_NAME, VECTOR_STORE_DIR
+from src.config import EMBEDDING_MODEL_NAME, VECTOR_STORE_DIR
 
 
 def load_vector_store():
