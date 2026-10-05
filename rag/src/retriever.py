@@ -23,4 +23,3 @@ def retriever(top_k: int = 5):
 
 
 retriever = retriever()
-print(retriever.invoke("What is the capital of Nigeria?"))
