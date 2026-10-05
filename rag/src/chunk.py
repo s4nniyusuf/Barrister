@@ -4,7 +4,7 @@ from pathlib import Path
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from config import CORPUS_DIR, CHUNKS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
+from src.config import CORPUS_DIR, CHUNKS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
 
 
 def get_corpus_files(corpus_dir: str) -> list:

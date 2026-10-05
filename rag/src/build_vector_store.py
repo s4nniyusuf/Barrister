@@ -5,7 +5,7 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
-from config import CHUNKS_DIR, EMBEDDING_MODEL_NAME, VECTOR_STORE_DIR
+from src.config import CHUNKS_DIR, EMBEDDING_MODEL_NAME, VECTOR_STORE_DIR
 
 
 def load_chunks():
