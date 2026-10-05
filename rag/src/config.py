@@ -17,3 +17,6 @@ CHUNK_OVERLAP = 200
 
 # Embedding model parameters
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
+
+# LLM parameters
+LLM_MODEL_NAME = "gpt-4o-mini"
