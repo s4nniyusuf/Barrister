@@ -16,5 +16,3 @@ rag_pipeline = (
     | llm
     | StrOutputParser()
 )
-
-# print(rag_pipeline.invoke("What punishment applies to those who violate nigerian law"))
