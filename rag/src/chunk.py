@@ -4,7 +4,7 @@ from pathlib import Path
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from src.config import CORPUS_DIR, CHUNKS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
+from .config import CORPUS_DIR, CHUNKS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
 
 
 def get_corpus_files(corpus_dir: str) -> list:
@@ -22,25 +22,20 @@ def read_corpus_file(file_path: str) -> list:
 
 
 def convert_to_langchain_documents(data: list):
-    """Convert a list of data to LangChain documents."""
-    docs = [
-        Document(
-            page_content=item["text"],
-            metadata={"document_id": item["document_id"], 
-                      "source_file": item["source_file"],
-                      "record_type": item["record_type"],
-                      "physical_page_start": item["physical_page_start"],
-                      "physical_page_end": item["physical_page_end"],
-                      "chapter": item["chapter"],
-                      "chapter_title": item["chapter_title"],
-                      "part": item["part"],
-                      "part_title": item["part_title"],
-                      "section_number": item["section_number"],
-                      "section_title": item["section_title"]
-                    }
-        )
-        for item in data
-    ]
+    """Convert corpus records to LangChain documents, retaining their metadata."""
+    docs = []
+    for index, item in enumerate(data):
+        text = item.get("text")
+
+        # Treat every dataset field except the text field as metadata. Omit
+        # nulls because vector-store metadata backends like Chroma reject them.
+        metadata = {
+            key: value
+            for key, value in item.items()
+            if key != "text" and value is not None
+        }
+        docs.append(Document(page_content=text, metadata=metadata))
+
     return docs
 
 
@@ -89,7 +84,7 @@ def main():
     for file in corpus_files:
         content = read_corpus_file(file)
         data.extend(content)
-        
+
     docs = convert_to_langchain_documents(data)
     chunks = chunk_text(docs)
     chunks_dict = convert_chunks_to_dict(chunks)
