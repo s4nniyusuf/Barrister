@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openrouter import ChatOpenRouter
 
-from src.config import LLM_MODEL_NAME
+from .config import LLM_MODEL_NAME
 
 
 load_dotenv()
