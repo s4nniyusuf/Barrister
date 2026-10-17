@@ -84,10 +84,12 @@ def main():
     """Main function to read and chunk corpus files."""
     corpus_files = get_corpus_files(CORPUS_DIR)
     data = []
+
     # loop through all corpus files and read their content
     for file in corpus_files:
         content = read_corpus_file(file)
         data.extend(content)
+        
     docs = convert_to_langchain_documents(data)
     chunks = chunk_text(docs)
     chunks_dict = convert_chunks_to_dict(chunks)
