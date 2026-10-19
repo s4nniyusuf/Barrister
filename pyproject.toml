@@ -17,6 +17,7 @@ dependencies = [
     "python-dotenv>=1.2.4",
     "rank-bm25>=0.2.2",
     "sentence-transformers>=6.1.0",
+    "spacy>=3.8.16",
     "streamlit>=1.65.0",
     "tiktoken>=0.14.0",
 ]
