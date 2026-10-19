@@ -4,6 +4,7 @@ This module contains functions/helpers that
 - converts them into LangChain documents 
 - prepares them for retrieval.
 - formats documents as readable source-and-content text for llm inference
+- preprocess text in bm25 queries and documents
 """
 
 
