@@ -10,9 +10,13 @@ This module contains functions/helpers that
 import json
 from pathlib import Path
 
+import spacy
 from langchain_core.documents import Document
 
 from .config import CHUNKS_DIR
+
+
+nlp = spacy.load("en_core_web_sm")
 
 
 def load_chunks():
@@ -44,6 +48,12 @@ def load_documents():
     chunks = load_chunks()
     docs = convert_chunks_to_documents(chunks)
     return docs
+
+
+def custom_preprocess(text: str) ->list[str]:
+    """Tokenize text with spaCy and return each token in lowercase form."""
+    doc = nlp(text)
+    return [token.lower_ for token in doc]
 
 
 def format_docs(docs):
