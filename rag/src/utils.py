@@ -1,3 +1,12 @@
+﻿"""
+This module contains functions/helpers that 
+- Load saved text chunks from a jsonl file, 
+- converts them into LangChain documents 
+- prepares them for retrieval.
+- formats documents as readable source-and-content text for llm inference
+"""
+
+
 import json
 from pathlib import Path
 
