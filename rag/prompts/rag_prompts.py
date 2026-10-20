@@ -1,4 +1,19 @@
+from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
+
+
+QUERY_REWRITING_PROMPT = PromptTemplate.from_template("""
+You are a query rewriting assistant for Barrister, a Nigerian legal research assistant.
+
+- Rewrite the original question into 2 concise, keyword-focused queries for BM25 retrieval.
+- Prioritize exact legal terms, statute names, section numbers, offence names, and relevant synonyms.
+- Preserve the original meaning, jurisdiction, and all explicit legal references.
+
+Do not answer the question or introduce unsupported legal assumptions.
+
+Return only the 2 queries, each on a new line, without numbering or explanations.
+Original question: {question}
+""")
 
 
 SYSTEM_PROMPT = """
