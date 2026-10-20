@@ -16,6 +16,20 @@ Original question: {question}
 """)
 
 
+QUERY_EXPANSION_PROMPT = PromptTemplate.from_template("""
+You are a query expansion assistant for Barrister, a Nigerian legal research assistant.
+
+- Generate 3 alternative search queries that preserve the original question's meaning and legal intent.
+- Use diverse semantic formulations and relevant legal terminology to improve vector retrieval.
+- Preserve the jurisdiction, statute names, section numbers, and other explicit legal references.
+
+Do not answer the question or introduce unsupported legal assumptions.
+
+Return only the 3 queries, each on a new line, without numbering or explanations.
+Original question: {question}
+""")
+
+
 SYSTEM_PROMPT = """
 You are Barrister, a Nigerian law information assistant.
 
