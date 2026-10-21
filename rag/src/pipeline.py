@@ -2,7 +2,7 @@ from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
 from .hybrid_retriever import retriever
-from .utils import format_docs
+from .utils import select_top_docs, format_docs
 from .generator import llm
 from ..prompts.rag_prompts import LEGAL_QA_PROMPT
 
@@ -23,7 +23,10 @@ def print_retrieved_docs(docs):
 rag_pipeline = (
     {
         "question": RunnablePassthrough(),
-        "context": retriever | RunnableLambda(print_retrieved_docs) | RunnableLambda(format_docs)
+        "context": retriever
+        | RunnableLambda(select_top_docs)
+        | RunnableLambda(print_retrieved_docs)
+        | RunnableLambda(format_docs)
     } 
     | LEGAL_QA_PROMPT 
     | llm
