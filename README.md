@@ -46,4 +46,4 @@ It is a data resource, not a substitute for official legal sources or profession
 - No separate reranking model is used, reducing additional model calls and latency. RRF performs rank fusion and ordering; a dedicated reranker could be considered in future work.
 
 ### RAG Architecture
-![Barrister architecture diagram](./assets/Barrister%20Architecture%202.png)
+![Barrister architecture diagram](./assets/Barrister%20Architecture.png)
