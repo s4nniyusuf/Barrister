@@ -19,7 +19,7 @@ def load_vector_store():
     return vector_store
 
 
-def retriever(top_k: int = 5):
+def retriever(top_k: int = 3):
     """Retrieve documents from the vector store based on a query."""
 
     # Multi-query-retriever for Key-word search retriever (BM25)
