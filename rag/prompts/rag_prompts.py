@@ -56,6 +56,9 @@ For questions unrelated to Nigerian law:
 
 
 USER_PROMPT = """
+Conversation so far (if relevant):
+{history}
+
 Legal context:
 {context}
 

@@ -1,4 +1,5 @@
 import html
+import os
 import requests
 import streamlit as st
 
@@ -10,7 +11,7 @@ st.set_page_config(
 
 
 # API CONFIG
-API_URL = "http://localhost:8000/chat"
+API_URL = os.getenv("BARRISTER_API_URL", "http://localhost:8000/chat").rstrip("/")
 
 def get_barrister_response(question, history):
     """Send a question and conversation history to FastAPI."""
@@ -250,7 +251,8 @@ with st.container(border=True):
 # CHAT INPUT (outside the container)
 prompt = st.chat_input(
     "Ask a question about Nigerian law",
-    disabled=st.session_state.is_processing
+    disabled=st.session_state.is_processing,
+    max_chars=2000,
 )
 
 # A pill selection takes priority over typed input.
@@ -270,7 +272,8 @@ if (
     question = prompt.strip()
 
     # History excludes the current question.
-    history = list(st.session_state.messages)
+    # Match the API's history limit and avoid sending the full session each turn.
+    history = list(st.session_state.messages[-30:])
 
     # Store the request before rerunning.
     st.session_state.active_request = {
