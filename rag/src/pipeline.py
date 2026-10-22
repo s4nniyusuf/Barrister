@@ -3,7 +3,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 from .hybrid_retriever import retriever
 from .utils import select_top_docs, format_docs
-from .generator import llm
+from .llm import llm
 from ..prompts.rag_prompts import LEGAL_QA_PROMPT
 
 

@@ -3,7 +3,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import BM25Retriever
 from langchain_classic.retrievers import MultiQueryRetriever, EnsembleRetriever
 
-from .generator import llm
+from .llm import llm
 from .utils import load_documents, custom_preprocess
 from .config import EMBEDDING_MODEL_NAME, VECTOR_STORE_DIR
 from ..prompts.rag_prompts import QUERY_EXPANSION_PROMPT, QUERY_REWRITING_PROMPT
