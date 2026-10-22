@@ -1,0 +1,1 @@
+"""Barrister API application."""
