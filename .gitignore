@@ -2,3 +2,4 @@
 __pycache__/
 vector_store/
 .env
+rag/src/query_transformer.py
