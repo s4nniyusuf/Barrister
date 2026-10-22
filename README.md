@@ -1,15 +1,13 @@
 # Barrister
-A Retrieval Augmented Generation system for Nigerian Legal information
 
-This study presents a novel Retrieval Augmented Generation (RAG), a text-based query system, for efficient access to Nigerian legal information. Utilizing the Nigerian Constitution and Criminal Code as its knowledge base, the system employs a pipeline involving semantic segmentation, Sentence Transformer embeddings, and vector database indexing for optimized information retrieval. User queries are refined by a Google Gemini large language model, trained as a Nigerian legal expert, to identify key terms and intent before searching the database for the top ten most relevant document chunks. These chunks, along with the refined query and keywords, are then fed back into Gemini to generate a detailed, referenced answer. The current implementation is evaluated using the precision. Recall, F1Score, perplexity and diversity metrics, and results fall within acceptable benchmarks of mean values (0.65, 0.73, 0.68, 14.42, 0.87) respectively, representing a significant advancement in making complex legal big data accessible.
+Barrister is a citation-aware retrieval-augmented generation (RAG) system for Nigerian legal information. Its knowledge base includes the Constitution of Nigeria, the Criminal Code Act, the Lagos State Tenancy Law, and the Electoral Act. It combines BM25-based keyword search with semantic search to retrieve relevant legal passages, which are then used to generate clear, context-aware answers with provision-level citations, enabling users to trace responses back to the underlying legal texts.
 
-LangChain and its integrations are used to build the RAG pipeline, connect embedding models, and integrate the vector database.
+[![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-interface-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![LangChain](https://img.shields.io/badge/LangChain-RAG-1C3C3C?logo=langchain&logoColor=white)](https://www.langchain.com/)
+[![Chroma](https://img.shields.io/badge/Chroma-vector%20store-5B4BDB)](https://www.trychroma.com/)
+[![Hugging%20Face](https://img.shields.io/badge/Hugging%20Face-embeddings-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/)
 
-
-Nigerian legislation contains important information about people's rights, obligations and institutions, but finding the precise provision relevant to a question can be difficult. Barrister explores how retrieval-augmented generation can make selected Nigerian legal sources easier to search, understand and verify through provision-level citations.
-
-
-It is a data resource, not a substitute for official legal sources or professional legal advice. Users should verify retrieved provisions against authoritative, current versions of the applicable legislation.
 
 
 ## RAG Pipeline
