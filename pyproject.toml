@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "chromadb>=1.5.9",
+    "fastapi[standard]>=0.115.0",
     "huggingface-hub>=1.33.0",
     "langchain>=1.4.3",
     "langchain-chroma>=1.1.0",
@@ -20,4 +21,5 @@ dependencies = [
     "spacy>=3.8.16",
     "streamlit>=1.65.0",
     "tiktoken>=0.14.0",
+    "uvicorn[standard]>=0.30.0",
 ]
