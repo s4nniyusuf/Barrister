@@ -1,5 +1,6 @@
 """HTTP API for the Barrister RAG application."""
 
+from contextlib import asynccontextmanager
 from functools import lru_cache
 import logging
 from threading import Lock
@@ -13,10 +14,42 @@ from .config import settings
 
 logger = logging.getLogger(__name__)
 
+
+# Loading retrieval models and the index is expensive; cache one pipeline per process.
+_pipeline_lock = Lock()
+
+
+@lru_cache(maxsize=1)
+def _get_pipeline():
+    """Return the process-wide pipeline, importing it only once.
+
+    Importing the pipeline initializes its retriever and model dependencies, so
+    caching avoids repeating that expensive setup for later chat requests.
+    """
+    with _pipeline_lock:
+        from rag.src.pipeline import rag_pipeline
+
+        return rag_pipeline
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    """Initialize the pipeline before serving requests.
+
+    Eager loading keeps the first chat request from paying the initialization
+    cost and surfaces missing configuration or RAG data during startup.
+    """
+    logger.info("Loading Barrister RAG pipeline...")
+    await run_in_threadpool(_get_pipeline)
+    logger.info("Barrister RAG pipeline loaded.")
+    yield
+
+
 app = FastAPI(
     title="Barrister API",
     description="Question answering over selected Nigerian legal sources.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 app.add_middleware(
     CORSMiddleware,
@@ -46,19 +79,6 @@ class ChatResponse(BaseModel):
     """Answer returned to the frontend."""
 
     answer: str
-
-
-# Loading the retrieval models and index is expensive; cache one pipeline per process.
-_pipeline_lock = Lock()
-
-
-@lru_cache(maxsize=1)
-def _get_pipeline():
-    """Load the RAG pipeline once, when the first chat request arrives."""
-    with _pipeline_lock:
-        from rag.src.pipeline import rag_pipeline
-
-        return rag_pipeline
 
 
 @app.get("/")
