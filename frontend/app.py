@@ -1,7 +1,7 @@
-import html
 import os
 import requests
 import streamlit as st
+from markdown_it import MarkdownIt
 
 # PAGE CONFIG
 st.set_page_config(
@@ -12,6 +12,7 @@ st.set_page_config(
 
 # API CONFIG
 API_URL = os.getenv("BARRISTER_API_URL", "http://localhost:8000/chat").rstrip("/")
+MARKDOWN = MarkdownIt("commonmark", {"html": False})
 
 def get_barrister_response(question, history):
     """Send a question and conversation history to FastAPI."""
@@ -199,34 +200,29 @@ with st.container(border=True):
     # CHAT MESSAGES
     else:
         for message in st.session_state.messages:
-
-            safe_content = html.escape(str(message["content"]))
+            rendered_content = MARKDOWN.render(str(message["content"]))
 
             if message["role"] == "user":
-
                 left, right = st.columns([3, 7])
 
                 with right:
                     st.markdown(
-                        f'<div class="message-row" '
-                        f'style="text-align: right;">'
-                        f'<div class="chat-bubble user-bubble" '
-                        f'style="text-align: left;">'
-                        f'{safe_content}'
-                        f'</div></div>',
-                        unsafe_allow_html=True
+                        '<div class="message-row" style="text-align: right;">'
+                        '<div class="chat-bubble user-bubble" style="text-align: left;">'
+                        f'{rendered_content}'
+                        '</div></div>',
+                        unsafe_allow_html=True,
                     )
-
             else:
                 left, right = st.columns([7, 3])
 
                 with left:
                     st.markdown(
-                        f'<div class="message-row">'
-                        f'<div class="chat-bubble ai-bubble">'
-                        f'{safe_content}'
-                        f'</div></div>',
-                        unsafe_allow_html=True
+                        '<div class="message-row">'
+                        '<div class="chat-bubble ai-bubble">'
+                        f'{rendered_content}'
+                        '</div></div>',
+                        unsafe_allow_html=True,
                     )
 
         # Disclaimer
