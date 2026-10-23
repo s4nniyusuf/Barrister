@@ -57,7 +57,7 @@ def custom_preprocess(text: str) ->list[str]:
     return [token.lower_ for token in doc]
 
 
-def select_top_docs(docs, limit: int = 5):
+def select_top_docs(docs, limit: int = 10):
     """Select the top-ranked documents to send to the generator."""
     return docs[:limit]
 
