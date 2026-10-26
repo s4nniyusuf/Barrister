@@ -80,30 +80,30 @@ The pipeline selects the top 10 passages and formats their text and source metad
 
 ```text
 Barrister/
-|-- assets/                    # Architecture diagrams
-|-- backend/
-|   └── app/
-|       |-- main.py            # FastAPI application and /chat endpoint
-|       └── config.py          # API settings, including CORS origins
-|-- data/
-|   |-- corpus/                # Source Nigerian legal texts (JSONL)
-|   └── chunks/
-|       └── chunks.jsonl       # Chunked text and source metadata
-|-- frontend/
-|   └── app.py                 # Streamlit chat interface
-|-- rag/
-|   |-- prompts/
-|   |   └──rag_prompts.py     # Retrieval and answer-generation prompts
-|   └── src/
-|       |-- chunk.py           # Corpus loading and text chunking
-|       |-- build_vector_store.py # Chroma index creation
-|       |-- hybrid_retriever.py # BM25 and vector retrieval with RRF
-|       |-- pipeline.py        # RAG orchestration
-|       |-- utils.py           # Chunk loading, preprocessing, and formatting
-|       |-- config.py          # Paths, chunk settings, and model names
-|       └── llm.py             # OpenRouter chat model setup
-|-- pyproject.toml             # Project metadata and dependencies
-|-- uv.lock                    # Locked dependency versions
+├── assets/                    # Architecture diagrams
+├── backend/
+│   └── app/
+│       ├── main.py            # FastAPI application and /chat endpoint
+│       └── config.py          # API settings, including CORS origins
+├── data/
+│   ├── corpus/                # Source Nigerian legal texts (JSONL)
+│   └── chunks/
+│       └── chunks.jsonl       # Chunked text and source metadata
+├── frontend/
+│   └── app.py                 # Streamlit chat interface
+├── rag/
+│   ├── prompts/
+│   │   └── rag_prompts.py     # Retrieval and answer-generation prompts
+│   └── src/
+│       ├── chunk.py           # Corpus loading and text chunking
+│       ├── build_vector_store.py # Chroma index creation
+│       ├── hybrid_retriever.py # BM25 and vector retrieval with RRF
+│       ├── pipeline.py        # RAG orchestration
+│       ├── utils.py           # Chunk loading, preprocessing, and formatting
+│       ├── config.py          # Paths, chunk settings, and model names
+│       └── llm.py             # OpenRouter chat model setup
+├── pyproject.toml             # Project metadata and dependencies
+├── uv.lock                    # Locked dependency versions
 └── README.md
 ```
 
