@@ -27,7 +27,7 @@ def convert_to_langchain_documents(data: list):
     for index, item in enumerate(data):
         text = item.get("text")
 
-        # Treat every dataset field except the text field as metadata. Omit
+        # Treats every dataset field except the text field as metadata. Omits
         # nulls because vector-store metadata backends like Chroma reject them.
         metadata = {
             key: value
