@@ -8,7 +8,9 @@ from .utils import load_documents
 def create_vector_store():
     """Create a vector store from the loaded chunks."""
     docs = load_documents()
+
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+    
     vector_store = Chroma.from_documents(
         documents=docs,
         embedding=embeddings,
