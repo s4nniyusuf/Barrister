@@ -1,3 +1,5 @@
+"""This module provides a Streamlit chat interface for asking questions through the Barrister API."""
+
 import os
 import requests
 import streamlit as st
