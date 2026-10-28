@@ -1,3 +1,10 @@
+"""
+This module contains the shared chat model used to
+- generate answers in the RAG pipeline
+- rewrite and expand retrieval queries
+- create evaluation question-and-answer pairs
+"""
+
 import os
 
 from dotenv import load_dotenv
