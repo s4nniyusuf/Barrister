@@ -1,1 +1,0 @@
-"""Barrister backend package."""
