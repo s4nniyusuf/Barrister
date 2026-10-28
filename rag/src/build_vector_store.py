@@ -15,7 +15,7 @@ def create_vector_store():
     docs = load_documents()
 
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
-    
+
     vector_store = Chroma.from_documents(
         documents=docs,
         embedding=embeddings,
