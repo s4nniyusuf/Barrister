@@ -1,3 +1,8 @@
+"""
+This module
+- builds and persists a vector store from the saved text chunks.
+"""
+
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
