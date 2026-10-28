@@ -1,3 +1,10 @@
+"""
+This module
+- searches documents with keyword and vector retrievers
+- rewrites and expands queries with the shared language model
+- combines the search results
+"""
+
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import BM25Retriever
