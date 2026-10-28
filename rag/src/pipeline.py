@@ -19,6 +19,12 @@ def format_history(messages: list[dict], limit: int = 12) -> str:
     )
 
 
+# def print_retrieved_context(context: str) -> str:
+#     """Print the context sent to the answer model, without changing it."""
+#     print(f"\nRetrieved context:\n{context}\n")
+#     return context
+
+
 rag_pipeline = (
     {
         "question": RunnableLambda(lambda values: values["question"]),
@@ -28,6 +34,7 @@ rag_pipeline = (
         | retriever
         | RunnableLambda(select_top_docs)
         | RunnableLambda(format_docs)
+        # | RunnableLambda(print_retrieved_context)
     } 
     | LEGAL_QA_PROMPT 
     | llm
