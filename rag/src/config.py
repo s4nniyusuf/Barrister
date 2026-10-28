@@ -1,3 +1,10 @@
+"""
+This module contains settings for the RAG system, including
+- project and data paths
+- chunking options
+- embedding and language model names
+"""
+
 from pathlib import Path
 
 # Project paths
