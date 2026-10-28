@@ -1,3 +1,9 @@
+"""
+This module contains prompts to
+- rewrite and expand retrieval queries
+- answer legal questions using retrieved context
+"""
+
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
 
