@@ -1,9 +1,4 @@
-"""
-This module builds the RAG pipeline to
-- retrieve relevant documents
-- format the question, chat history, and context
-- generate an answer with the language model
-"""
+"""Build the RAG pipeline for retrieving context and generating answers."""
 
 from langchain_core.runnables import RunnableLambda
 from langchain_core.output_parsers import StrOutputParser

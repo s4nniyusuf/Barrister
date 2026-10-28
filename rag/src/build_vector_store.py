@@ -1,7 +1,4 @@
-"""
-This module
-- builds and persists a vector store from the saved text chunks.
-"""
+"""Build and persist a vector store from saved text chunks."""
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma

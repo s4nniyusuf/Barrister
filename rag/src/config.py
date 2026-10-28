@@ -1,9 +1,4 @@
-"""
-This module contains settings for the RAG system, including
-- project and data paths
-- chunking options
-- embedding and language model names
-"""
+"""Configuration for RAG data paths, chunking, and model settings."""
 
 from pathlib import Path
 

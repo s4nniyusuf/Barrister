@@ -1,9 +1,4 @@
-"""
-This module
-- searches documents with keyword and vector retrievers
-- rewrites and expands queries with the shared language model
-- combines the search results
-"""
+"""Retrieve and combine legal documents using keyword and vector search."""
 
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings

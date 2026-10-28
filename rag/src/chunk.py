@@ -1,10 +1,4 @@
-"""
-This module
-- reads legal corpus records, 
-- converts them into langchain documents
-- splits them into chunks, 
-- and saves the results.
-"""
+"""Load legal corpus records, split them into chunks, and save the results."""
 
 import json
 from pathlib import Path
