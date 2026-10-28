@@ -52,6 +52,7 @@ def chunk_text(docs: list):
     splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
+        strip_whitespace=True
     )
     chunks = splitter.split_documents(docs)
     return chunks
