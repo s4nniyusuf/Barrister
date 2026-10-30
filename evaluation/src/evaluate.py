@@ -10,6 +10,34 @@ from rag.src.pipeline import rag_pipeline
 from rag.src.utils import format_docs, select_top_docs
 
 
+METRICS = (
+    "faithfulness",
+    "precision",
+    "recall",
+    "answer_relevance",
+    "answer_correctness",
+)
+
+
+def parse_evaluation(evaluation):
+    """Parse judge JSON, including responses wrapped in a Markdown code fence."""
+    if not isinstance(evaluation, str):
+        return evaluation
+
+    content = evaluation.strip()
+    lines = content.splitlines()
+    if lines and lines[0].startswith("```"):
+        lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        content = "\n".join(lines).strip()
+
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        return evaluation
+
+
 def main():
     tuning_path = SAMPLES_DIR / "tuning.jsonl"
     output_path = SAMPLES_DIR / "evaluation_results.json"
@@ -21,7 +49,7 @@ def main():
 
     results = []
 
-    for sample in tqdm(tuning_samples):
+    for sample_id, sample in enumerate(tqdm(tuning_samples), start=1):
         question = sample["question"]
         reference_answer = sample["answer"]
 
@@ -43,15 +71,18 @@ def main():
             "reference_answer": reference_answer,
         })
 
-        # Save each sample with the generated answer, retrieved context, and judge result.
-        results.append({
-            **sample,
-            "retrieved_context": retrieved_context,
-            "rag_answer": rag_answer,
-            "evaluation": evaluation,
-        })
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with output_path.open("w", encoding="utf-8") as file:
+        # Save only the judge's structured result for this sample.
+        evaluation_result = parse_evaluation(evaluation)
+
+        if isinstance(evaluation_result, dict):
+            result = {"sample_id": sample_id, **evaluation_result}
+        else:
+            result = {"sample_id": sample_id, "evaluation": evaluation_result}
+
+        # Save the result
+        results.append(result)
+
+        with open(output_path, "w", encoding="utf-8") as file:
             json.dump(results, file, ensure_ascii=False, indent=2, default=str)
 
         print(f"Question:\n{question}\n")
@@ -61,6 +92,26 @@ def main():
         print(f"Reference context:\n{sample['context']}\n")
         print(f"LLM judge evaluation:\n{evaluation}")
         print("\n" + "=" * 80 + "\n")
+
+    metric_scores = {metric: [] for metric in METRICS}
+    for result in results:
+        for metric in METRICS:
+            metric_result = result.get(metric)
+            if isinstance(metric_result, dict) and isinstance(metric_result.get("score"), (int, float)):
+                metric_scores[metric].append(metric_result["score"])
+
+    average_scores = {
+        metric: round(sum(scores) / len(scores), 2)
+        for metric, scores in metric_scores.items()
+        if scores
+    }
+    results.append({
+        "summary": "average_scores",
+        "sample_count": len(tuning_samples),
+        "average_scores": average_scores,
+    })
+    with open(output_path, "w", encoding="utf-8") as file:
+        json.dump(results, file, ensure_ascii=False, indent=2, default=str)
 
 
 if __name__ == "__main__":
