@@ -60,6 +60,8 @@ The pipeline uses two parallel retrieval paths:
 - **Keyword retrieval:** An LLM rewrites the question into keyword-focused alternatives. spaCy lowercases and tokenizes the queries, and BM25 retrieves relevant passages from the chunk documents.
 - **Semantic retrieval:** An LLM expands the question into alternative phrasings. The embedding model converts the queries into vectors, and Chroma retrieves semantically similar passages.
 
+**BM25 preprocessing:** spaCy lowercases and tokenizes both queries and corpus chunks. Stopword removal, stemming, and lemmatization are intentionally omitted to preserve the original wording and legal nuances in Nigerian legal texts.
+
 Both paths also retrieve results for the original question. An equally weighted `EnsembleRetriever` combines the results using Reciprocal Rank Fusion (RRF), producing a unified ranking without a separate reranking model.
 
 The pipeline selects the top 10 passages and formats their text and source metadata as context. The OpenRouter chat model receives this context alongside the original question and recent conversation history to generate an answer with provision-level citations. FastAPI returns the answer to Streamlit.
@@ -182,7 +184,7 @@ Complete offline indexing first, then run the API and frontend in separate termi
 **Terminal 1 — FastAPI backend:**
 
 ```bash
-uv run fastapi run backend/app/main.py
+uv run uvicorn backend.app.main:app --reload
 ```
 
 **Terminal 2 — Streamlit frontend:**
