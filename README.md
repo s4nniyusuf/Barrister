@@ -65,7 +65,7 @@ Both paths also retrieve results for the original question. An equally weighted 
 The pipeline selects the top 10 passages and formats their text and source metadata as context. The OpenRouter chat model receives this context alongside the original question and recent conversation history to generate an answer with provision-level citations. FastAPI returns the answer to Streamlit.
 
 
-## Evaluation
+## Evaluation (llm-as-a-judge)
 I generated 10 synthetic question-and-answer pairs from the legal corpus, each grounded in a specific legal provision, and split them into tuning and test sets. 
 
 In the five-sample tuning evaluation, the LLM judge found that retrieved contexts generally contained the information needed to answer the questions, and that answers were faithful, relevant, correct, and sufficiently detailed. 
@@ -98,47 +98,52 @@ The per-sample judge results are saved in [`evaluation/data/evaluation_results.j
 
 ```text
 Barrister/
-├── assets/                         # Architecture diagrams
+├── assets/
+│   └── Barrister Architecture.png  # System architecture diagram
 ├── backend/
 │   └── app/
-│       ├── main.py                 # FastAPI app, lifecycle, and /chat endpoint
-│       └── config.py               # Backend settings, including CORS origins
+│       ├── main.py                 # FastAPI application and chat endpoint
+│       └── config.py               # Backend settings
 ├── data/
-│   ├── corpus/                     # Legal source records in JSONL
+│   ├── corpus/                     # Nigerian legal source documents
+│   │   ├── criminal_code_act.jsonl
+│   │   ├── electoral_act_2026.jsonl
+│   │   ├── nigeria-constitution-1999-amended-2023.jsonl
+│   │   └── tenancy_law_2011.jsonl
 │   └── chunks/
-│       └── chunks.jsonl            # Chunked legal text and source metadata
+│       └── chunks.jsonl            # Chunked text and source metadata
 ├── evaluation/
 │   ├── data/
 │   │   ├── tuning.jsonl            # Tuning questions and reference answers
-│   │   └── test.jsonl              # Held-out questions and reference answers
+│   │   ├── test.jsonl              # Held-out questions and reference answers
+│   │   └── evaluation_results.json # Per-sample metrics and average scores
 │   ├── prompts/
-│   │   └── eval_prompts.py         # Synthetic QA generation prompt
+│   │   └── eval_prompts.py         # QA generation and judge prompts
 │   └── src/
 │       ├── generate_qa_dataset.py  # Generate and split synthetic QA samples
-│       ├── evaluate.py             # Inspect RAG answers against tuning answers
-│       └── llm_as_a_judge.py       # LLM-as-a-judge evaluation pipeline
+│       ├── evaluate.py             # Run and summarize tuning-set evaluation
+│       └── llm_as_a_judge.py       # LLM-as-a-judge pipeline
 ├── frontend/
 │   ├── .streamlit/config.toml      # Streamlit configuration
 │   └── app.py                      # Streamlit chat interface
 ├── rag/
 │   ├── prompts/
-│   │   └── rag_prompts.py          # Retrieval and legal-answer prompts
+│   │   └── rag_prompts.py          # Query and legal-answer prompts
 │   └── src/
-│       ├── chunk.py                # Load corpus records and create chunks
-│       ├── build_vector_store.py   # Build the persistent Chroma index
+│       ├── build_vector_store.py   # Build the Chroma vector index
+│       ├── chunk.py                # Load and chunk legal documents
+│       ├── config.py               # Data paths, chunking, and model settings
 │       ├── hybrid_retriever.py     # BM25 and vector retrieval with RRF
+│       ├── llm.py                  # OpenRouter chat model setup
 │       ├── pipeline.py             # Retrieval-to-answer pipeline
-│       ├── utils.py                # Load, preprocess, and format documents
-│       ├── config.py               # Paths, chunk sizes, and model names
-│       └── llm.py                  # OpenRouter chat model setup
+│       └── utils.py                # Document loading and formatting
 ├── .env.example                    # Environment variable template
 ├── .gitignore
 ├── .python-version
 ├── LICENSE
 ├── pyproject.toml                  # Project metadata and dependencies
-├── uv.lock                         # Locked dependency versions
-├── vector_store/                   # Generated Chroma index (gitignored)
-└── README.md
+├── README.md
+└── uv.lock                         # Locked dependency versions
 ```
 
 
