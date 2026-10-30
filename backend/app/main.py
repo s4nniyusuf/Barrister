@@ -34,11 +34,7 @@ def _get_pipeline():
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    """Initialize the pipeline before serving requests.
-
-    Eager loading keeps the first chat request from paying the initialization
-    cost and surfaces missing configuration or RAG data during startup.
-    """
+    """Load the RAG pipeline at startup and surface initialization errors early."""
     logger.info("Loading Barrister RAG pipeline...")
     await run_in_threadpool(_get_pipeline)
     logger.info("Barrister RAG pipeline loaded.")
