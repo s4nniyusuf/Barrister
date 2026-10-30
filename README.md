@@ -2,6 +2,12 @@
 
 Barrister is a citation-aware retrieval-augmented generation (RAG) system for Nigerian legal information, built on a curated corpus of Nigerian legal texts.
 
+## Dataset
+
+I curated the Nigerian legal corpus used by this project. It currently includes the 1999 Constitution, the Electoral Act, the Criminal Code Act, and the Lagos Tenancy Law. The corpus is available in the [Nigerian Legal Corpus repository](https://github.com/s4nniyusuf/nigerian-legal-corpus), with original source files and processed JSONL records for retrieval and NLP.
+
+The processed dataset is licensed under CC BY 4.0. See the corpus repository's README and `LICENSE.md` for details.
+
 
 ## The Problem
 
@@ -59,51 +65,79 @@ Both paths also retrieve results for the original question. An equally weighted 
 The pipeline selects the top 10 passages and formats their text and source metadata as context. The OpenRouter chat model receives this context alongside the original question and recent conversation history to generate an answer with provision-level citations. FastAPI returns the answer to Streamlit.
 
 
+## Evaluation
+I generated 10 synthetic question-and-answer pairs from the legal corpus, each grounded in a specific legal provision, and split them into tuning and test sets. 
+
+In the five-sample tuning evaluation, the LLM judge found that retrieved contexts generally contained the information needed to answer the questions, and that answers were faithful, relevant, correct, and sufficiently detailed. 
+
+The judge model was GPT-4o.
+
+The average scores across the five tuning samples were **4.8/5 for faithfulness**, **4.2/5 for precision**, **5.0/5 for recall**, **4.9/5 for answer relevance**, and **4.9/5 for answer correctness**.
+
+The per-sample judge results are saved in [`evaluation/data/evaluation_results.json`](evaluation/data/evaluation_results.json).
+
 ## Tech Stack
 
 | Area | Technology | Role |
 |---|---|---|
 | Language | Python 3.12+ | Application and RAG implementation |
 | Package management | uv | Dependency and environment management |
-| Frontend | Streamlit | Chat interface |
+| Frontend | Streamlit, Requests, markdown-it-py | Chat interface, API requests, and Markdown rendering |
 | Backend API | FastAPI, Pydantic, Uvicorn | HTTP endpoints, request validation, and ASGI serving |
-| RAG orchestration | LangChain | Prompts, query transformation, retrievers, and answer pipeline |
+| RAG orchestration | LangChain and LangChain Classic | Prompt templates, query transformation, retrieval, and answer generation |
 | Keyword retrieval | BM25 (`rank-bm25`) | Finds passages with matching legal terms |
-| Text preprocessing | spaCy (`en_core_web_sm`) | Tokenizes and lowercases text for BM25 |
-| Embeddings | Sentence Transformers: `BAAI/bge-small-en-v1.5` | Encodes chunks and queries for semantic search |
+| Semantic retrieval | Hugging Face Sentence Transformers, `BAAI/bge-small-en-v1.5` | Embeds chunks and queries for vector search |
 | Vector store | Chroma | Persists embeddings, chunk text, and metadata |
-| Language model | OpenRouter, configured with NVIDIA Nemotron 3 Ultra | Query rewriting, query expansion, and answer generation |
-| Chunking | LangChain Text Splitters, `tiktoken` | Creates overlapping, token-sized legal text chunks |
+| Language model | GPT-4o via OpenRouter | Query rewriting, query expansion, answer generation, and evaluation |
+| Chunking | LangChain Text Splitters, `tiktoken` | Splits source text into 1,000-token chunks with 200-token overlap |
+| Text preprocessing | spaCy (`en_core_web_sm`) | Tokenizes and lowercases text for BM25 |
+| Evaluation | GPT-4o LLM-as-a-judge | Scores answer faithfulness, precision, recall, relevance, and correctness |
 
 
 ## Project Structure
 
 ```text
 Barrister/
-├── assets/                    # Architecture diagrams
+├── assets/                         # Architecture diagrams
 ├── backend/
 │   └── app/
-│       ├── main.py            # FastAPI application and /chat endpoint
-│       └── config.py          # API settings, including CORS origins
+│       ├── main.py                 # FastAPI app, lifecycle, and /chat endpoint
+│       └── config.py               # Backend settings, including CORS origins
 ├── data/
-│   ├── corpus/                # Source Nigerian legal texts (JSONL)
+│   ├── corpus/                     # Legal source records in JSONL
 │   └── chunks/
-│       └── chunks.jsonl       # Chunked text and source metadata
+│       └── chunks.jsonl            # Chunked legal text and source metadata
+├── evaluation/
+│   ├── data/
+│   │   ├── tuning.jsonl            # Tuning questions and reference answers
+│   │   └── test.jsonl              # Held-out questions and reference answers
+│   ├── prompts/
+│   │   └── eval_prompts.py         # Synthetic QA generation prompt
+│   └── src/
+│       ├── generate_qa_dataset.py  # Generate and split synthetic QA samples
+│       ├── evaluate.py             # Inspect RAG answers against tuning answers
+│       └── llm_as_a_judge.py       # LLM-as-a-judge evaluation pipeline
 ├── frontend/
-│   └── app.py                 # Streamlit chat interface
+│   ├── .streamlit/config.toml      # Streamlit configuration
+│   └── app.py                      # Streamlit chat interface
 ├── rag/
 │   ├── prompts/
-│   │   └── rag_prompts.py     # Retrieval and answer-generation prompts
+│   │   └── rag_prompts.py          # Retrieval and legal-answer prompts
 │   └── src/
-│       ├── chunk.py           # Corpus loading and text chunking
-│       ├── build_vector_store.py # Chroma index creation
-│       ├── hybrid_retriever.py # BM25 and vector retrieval with RRF
-│       ├── pipeline.py        # RAG orchestration
-│       ├── utils.py           # Chunk loading, preprocessing, and formatting
-│       ├── config.py          # Paths, chunk settings, and model names
-│       └── llm.py             # OpenRouter chat model setup
-├── pyproject.toml             # Project metadata and dependencies
-├── uv.lock                    # Locked dependency versions
+│       ├── chunk.py                # Load corpus records and create chunks
+│       ├── build_vector_store.py   # Build the persistent Chroma index
+│       ├── hybrid_retriever.py     # BM25 and vector retrieval with RRF
+│       ├── pipeline.py             # Retrieval-to-answer pipeline
+│       ├── utils.py                # Load, preprocess, and format documents
+│       ├── config.py               # Paths, chunk sizes, and model names
+│       └── llm.py                  # OpenRouter chat model setup
+├── .env.example                    # Environment variable template
+├── .gitignore
+├── .python-version
+├── LICENSE
+├── pyproject.toml                  # Project metadata and dependencies
+├── uv.lock                         # Locked dependency versions
+├── vector_store/                   # Generated Chroma index (gitignored)
 └── README.md
 ```
 
