@@ -1,0 +1,128 @@
+[
+  {
+    "sample_id": 1,
+    "faithfulness": {
+      "score": 4.5,
+      "rationale": "The RAG answer is largely faithful to the retrieved context, accurately reflecting the election criteria from Section 179(2)-(5) of the Nigerian Constitution for the governorship election where two or more candidates are involved. However, there is a minor extrapolation in the explanation of subsequent elections."
+    },
+    "precision": {
+      "score": 4.0,
+      "rationale": "The retrieved passages contain relevant information, especially Section 179 which focuses on the governorship election criteria. However, some retrieved context, like the qualifications of a candidate, is not directly necessary for addressing the question."
+    },
+    "recall": {
+      "score": 5.0,
+      "rationale": "The retrieved context includes all necessary information to answer the question comprehensively, particularly Section 179, which matches the reference answer's necessary points."
+    },
+    "answer_relevance": {
+      "score": 4.5,
+      "rationale": "The answer directly addresses the question about the election criteria for a governorship candidate in Nigerian states with multiple candidates. It is detailed and covers necessary information, though slightly detailed beyond the surface-level requirements."
+    },
+    "answer_correctness": {
+      "score": 5.0,
+      "rationale": "The RAG answer is both semantically and factually consistent with the reference answer, accurately detailing the electoral requirements as given in the Constitution."
+    }
+  },
+  {
+    "sample_id": 2,
+    "faithfulness": {
+      "score": 5.0,
+      "rationale": "The RAG answer is fully supported by the retrieved context, specifically Section 242 of the Criminal Code Act, which explicitly outlines the penalty for improper interference with a dead human body."
+    },
+    "precision": {
+      "score": 4.0,
+      "rationale": "The retrieved passages are mostly relevant to the question, with some additional context about related offenses, but the relevant information from Section 242 is directly related and highlighted."
+    },
+    "recall": {
+      "score": 5.0,
+      "rationale": "All necessary information to match the reference answer, including the specific penalty, is present in the retrieved context, specifically Section 242."
+    },
+    "answer_relevance": {
+      "score": 5.0,
+      "rationale": "The RAG answer directly and concisely addresses the question by stating the legal penalty for interfering with a dead body, exactly as asked."
+    },
+    "answer_correctness": {
+      "score": 5.0,
+      "rationale": "The RAG answer is semantically and factually accurate when compared with the reference answer, correctly stating the misdemeanor charge and the two-year imprisonment penalty."
+    }
+  },
+  {
+    "sample_id": 3,
+    "faithfulness": {
+      "score": 5.0,
+      "rationale": "The RAG answer is directly supported by the retrieved context, specifically from Section 245(2)(a), which states the conditions under which an appeal can be brought to the Court of Appeal from a decision of a Customary Court of Appeal."
+    },
+    "precision": {
+      "score": 4.5,
+      "rationale": "The retrieved passages focus primarily on appeals within the judiciary system, particularly the section related to appeals from a Customary Court of Appeal. However, there is some additional content that is not overly relevant to the specific query, such as sections about other courts and judicial appointments."
+    },
+    "recall": {
+      "score": 5.0,
+      "rationale": "All necessary information required to formulate a complete answer is present in the retrieved context, especially in Section 245 which comprehensively details the rights of appeal from a state Customary Court of Appeal."
+    },
+    "answer_relevance": {
+      "score": 5.0,
+      "rationale": "The answer directly addresses the question asked, specifying who may bring an appeal to the Court of Appeal from the decision of a Customary Court of Appeal."
+    },
+    "answer_correctness": {
+      "score": 5.0,
+      "rationale": "The RAG answer is semantically and factually accurate as compared with the reference answer. It correctly states the conditions under which appeals can be brought, aligning perfectly with the reference answer."
+    }
+  },
+  {
+    "sample_id": 4,
+    "faithfulness": {
+      "score": 4.5,
+      "rationale": "The RAG answer accurately states that a Nigerian citizen must be eighteen years old to register as a voter, which is well-supported by both constitutional sections retrieved. However, the reference to specific sections (77(2) and 117(2)) is more precise than needed for the question and slightly more detailed than the ground truth."
+    },
+    "precision": {
+      "score": 4.0,
+      "rationale": "The retrieved context is highly relevant and focused on the requirements for voter registration, particularly the age requirement. There is some additional contextual information regarding electoral offenses and continuous registration but it's mostly relevant to the question."
+    },
+    "recall": {
+      "score": 5.0,
+      "rationale": "The retrieved context contains all necessary information to answer the question fully, including the specific legal age requirement for voter registration per the Nigerian constitution and electoral act."
+    },
+    "answer_relevance": {
+      "score": 5.0,
+      "rationale": "The answer directly answers the question on the age requirement for voter registration in Nigeria with the correct focus on legislative elections."
+    },
+    "answer_correctness": {
+      "score": 4.5,
+      "rationale": "The RAG answer is semantically and factually accurate, matching the ground truth closely. It correctly mentions the age requirement and includes additional reference to specific constitutional sections. While this is correct, it is not necessary for correctness per the reference answer."
+    }
+  },
+  {
+    "sample_id": 5,
+    "faithfulness": {
+      "score": 5.0,
+      "rationale": "All claims in the RAG answer are directly supported by the retrieved context, specifically from Section 341 of the Criminal Code Act."
+    },
+    "precision": {
+      "score": 4.5,
+      "rationale": "The retrieved passages are mostly focused and relevant to the question, with Section 341 being the most pertinent. However, sections about self-defense and other unrelated topics slightly dilute the focus."
+    },
+    "recall": {
+      "score": 5.0,
+      "rationale": "All information necessary to match the reference answer is provided in the retrieved context, particularly in Section 341."
+    },
+    "answer_relevance": {
+      "score": 5.0,
+      "rationale": "The answer directly and concisely addresses the question about the punishment for unlawfully abandoning or exposing a child under seven."
+    },
+    "answer_correctness": {
+      "score": 5.0,
+      "rationale": "The semantic and factual content of the RAG answer is accurate and consistent with the reference answer, both stating a liability to imprisonment for five years."
+    }
+  },
+  {
+    "summary": "average_scores",
+    "sample_count": 5,
+    "average_scores": {
+      "faithfulness": 4.8,
+      "precision": 4.2,
+      "recall": 5.0,
+      "answer_relevance": 4.9,
+      "answer_correctness": 4.9
+    }
+  }
+]
