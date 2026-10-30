@@ -21,4 +21,5 @@ EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 
 # LLM model name
 # LLM_MODEL_NAME = "nvidia/nemotron-3-ultra-550b-a55b:free"
-LLM_MODEL_NAME = "qwen/qwen3.8-27b"
+# LLM_MODEL_NAME = "qwen/qwen3.8-27b"
+LLM_MODEL_NAME = "openai/gpt-4o"  # For evaluation
