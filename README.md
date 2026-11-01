@@ -197,6 +197,7 @@ Open the Streamlit URL shown in the terminal (normally `http://localhost:8501`).
 
 ## Demo Video
 Architecture demo on [Youtube](https://youtu.be/4KJ8h2iLLhI)
+
 App demo on [Youtube](https://youtu.be/HSC8gV7k9KY)
 
 ## Feedback
