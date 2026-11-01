@@ -42,7 +42,7 @@ def main():
     tuning_path = SAMPLES_DIR / "tuning.jsonl"
     output_path = SAMPLES_DIR / "evaluation_results.json"
 
-    with tuning_path.open(encoding="utf-8") as file:
+    with open(tuning_path, encoding="utf-8") as file:
         tuning_samples = [
             json.loads(line) for line in file if line.strip()
         ]
