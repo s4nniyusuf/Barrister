@@ -196,6 +196,10 @@ uv run streamlit run frontend/app.py
 Open the Streamlit URL shown in the terminal (normally `http://localhost:8501`). The API health endpoint is at `http://localhost:8000/health`, and its interactive documentation is at `http://localhost:8000/docs`.
 
 ## Demo Video
+
+![Barrister chat interface, welcome screen](./assets/demo%20image%201.png)
+![Barrister chat interface, conversation](./assets/demo%20image%202.png)
+
 Architecture demo on [Youtube](https://youtu.be/4KJ8h2iLLhI)
 
 App demo on [Youtube](https://youtu.be/HSC8gV7k9KY)
