@@ -1,6 +1,6 @@
 """Build the RAG pipeline for retrieving context and generating answers."""
 
-from langchain_core.runnables import RunnableLambda
+from langchain_core.runnables import RunnableLambda, RunnableParallel, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
 from .hybrid_retriever import retriever
@@ -25,8 +25,8 @@ def format_history(messages: list[dict], limit: int = 12) -> str:
 #     return context
 
 
-rag_pipeline = (
-    {
+rag_pipeline_with_context = (
+    RunnableParallel({
         "question": RunnableLambda(lambda values: values["question"]),
         "history": RunnableLambda(lambda values: values.get("history", []))
         | RunnableLambda(format_history),
@@ -35,8 +35,10 @@ rag_pipeline = (
         | RunnableLambda(select_top_docs)
         | RunnableLambda(format_docs)
         # | RunnableLambda(print_retrieved_context)
-    } 
-    | LEGAL_QA_PROMPT 
-    | llm
-    | StrOutputParser()
+    })
+    | RunnablePassthrough.assign(answer=LEGAL_QA_PROMPT | llm | StrOutputParser())
 )
+
+# Keep the application's existing string response while exposing the exact
+# generation context to evaluation without a second retrieval.
+rag_pipeline = rag_pipeline_with_context | RunnableLambda(lambda result: result["answer"])
