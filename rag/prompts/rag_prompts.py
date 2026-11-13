@@ -4,6 +4,17 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
 
 
+CONTEXTUALIZE_QUESTION_PROMPT = ChatPromptTemplate.from_messages([
+    ("system", """Rewrite the latest question as a standalone search question using
+the conversation only to resolve references and omitted details. Preserve the
+user's intent, jurisdiction, statute names, and explicit provision references.
+If the question is already standalone, return it unchanged. Do not answer the
+question or treat earlier assistant claims as verified law. Return only the
+standalone question."""),
+    ("human", "Conversation:\n{history}\n\nLatest question:\n{question}"),
+])
+
+
 QUERY_REWRITING_PROMPT = PromptTemplate.from_template("""
 You are a query rewriting assistant for Barrister, a Nigerian legal research assistant.
 

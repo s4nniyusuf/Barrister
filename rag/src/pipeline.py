@@ -6,7 +6,7 @@ from langchain_core.output_parsers import StrOutputParser
 from .hybrid_retriever import retriever
 from .utils import select_top_docs, format_docs
 from .llm import llm
-from ..prompts.rag_prompts import LEGAL_QA_PROMPT
+from ..prompts.rag_prompts import LEGAL_QA_PROMPT, CONTEXTUALIZE_QUESTION_PROMPT
 
 
 def format_history(messages: list[dict], limit: int = 12) -> str:
@@ -17,6 +17,19 @@ def format_history(messages: list[dict], limit: int = 12) -> str:
         for message in recent_messages
         if message.get("content")
     )
+
+
+contextualize_question = CONTEXTUALIZE_QUESTION_PROMPT | llm | StrOutputParser()
+
+
+def retrieval_question(values: dict) -> str:
+    """Resolve follow-up references for retrieval, skipping rewriting without history."""
+    question = values["question"]
+    history = format_history(values.get("history", []))
+    if not history:
+        return question
+    standalone = contextualize_question.invoke({"question": question, "history": history})
+    return standalone.strip() or question
 
 
 # def print_retrieved_context(context: str) -> str:
@@ -30,7 +43,7 @@ rag_pipeline = (
         "question": RunnableLambda(lambda values: values["question"]),
         "history": RunnableLambda(lambda values: values.get("history", []))
         | RunnableLambda(format_history),
-        "context": RunnableLambda(lambda values: values["question"])
+        "context": RunnableLambda(retrieval_question)
         | retriever
         | RunnableLambda(select_top_docs)
         | RunnableLambda(format_docs)
