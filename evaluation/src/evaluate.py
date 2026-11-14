@@ -5,9 +5,7 @@ from tqdm import tqdm
 
 from .generate_qa_dataset import SAMPLES_DIR
 from .llm_as_a_judge import llm_as_a_judge
-from rag.src.hybrid_retriever import retriever
-from rag.src.pipeline import rag_pipeline
-from rag.src.utils import format_docs, select_top_docs
+from rag.src.pipeline import rag_pipeline_with_context
 
 
 METRICS = (
@@ -53,15 +51,12 @@ def main():
         question = sample["question"]
         reference_answer = sample["answer"]
 
-        # Retrieve and format context
-        docs = retriever.invoke(question)
-        retrieved_docs = select_top_docs(docs)
-        retrieved_context = format_docs(retrieved_docs)
-
-        # Generate the RAG answer
-        rag_answer = rag_pipeline.invoke(
+        # Generate once and judge against the exact context used for the answer.
+        response = rag_pipeline_with_context.invoke(
             {"question": question, "history": []}
         )
+        retrieved_context = response["context"]
+        rag_answer = response["answer"]
 
         # Evaluate the RAG response
         evaluation = llm_as_a_judge.invoke({
